@@ -1,0 +1,41 @@
+# Wafid Booking Automation - Web Version
+# Core Flask Dependencies
+Flask==2.3.3
+Flask-SocketIO==5.3.6
+
+# Web Automation
+selenium==4.15.0
+webdriver-manager==4.0.1
+
+# HTTP and Web Utilities
+requests==2.31.0
+beautifulsoup4==4.12.2
+
+# Background Processing
+psutil==5.9.6
+schedule==1.2.0
+
+# Real-time Communication
+python-socketio==5.10.0
+eventlet==0.33.3
+
+# Utilities
+colorama==0.4.6
+termcolor==2.3.0
+python-dotenv==1.0.0
+
+# Production Web Server
+gunicorn==21.2.0
+
+# Data Processing
+numpy==1.24.3
+pandas==2.0.3
+
+# Date/Time Utilities
+python-dateutil==2.8.2
+
+# Security
+cryptography==41.0.7
+
+# Configuration
+PyYAML==6.0.1

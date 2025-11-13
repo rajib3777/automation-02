@@ -1,0 +1,70 @@
+version: '3.8'
+
+services:
+  enhanced-wafid-bot:
+    build:
+      context: .
+      dockerfile: Dockerfile_enhanced
+    container_name: enhanced-wafid-booking
+    ports:
+      - "5000:5000"
+    environment:
+      - PYTHONUNBUFFERED=1
+      - ENHANCED_MONITORING=true
+      - MAX_RETRIES=5
+      - HEALTH_CHECK_INTERVAL=60
+    volumes:
+      - ./logs:/app/logs
+      - ./config:/app/config
+    restart: unless-stopped
+    mem_limit: 2g
+    cpu_count: 2
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:5000/"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+    labels:
+      - "app=enhanced-wafid-booking"
+      - "version=2.0"
+      - "features=monitoring,backup-strategies,intelligent-retries"
+
+  nginx-proxy:
+    image: nginx:alpine
+    container_name: wafid-nginx-proxy
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./nginx_enhanced.conf:/etc/nginx/nginx.conf:ro
+      - ./ssl:/etc/nginx/ssl:ro
+    depends_on:
+      - enhanced-wafid-bot
+    restart: unless-stopped
+    labels:
+      - "proxy=enhanced-wafid-booking"
+
+  monitoring-dashboard:
+    image: grafana/grafana:latest
+    container_name: wafid-monitoring
+    ports:
+      - "3000:3000"
+    environment:
+      - GF_SECURITY_ADMIN_PASSWORD=wafid2025
+    volumes:
+      - grafana-storage:/var/lib/grafana
+      - ./monitoring/grafana:/etc/grafana/provisioning
+    restart: unless-stopped
+    labels:
+      - "monitoring=grafana"
+
+volumes:
+  grafana-storage:
+
+networks:
+  default:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.20.0.0/16

@@ -1,0 +1,17 @@
+{
+  "user_details": {
+    "full_name": "Farid Hossain",
+    "passport_number": "AE5241562", 
+    "nationality": "Bangladesh",
+    "phone": "+8801234567890",
+    "email": "mominit8@gmail.com"
+  },
+  "booking_preferences": {
+    "country": "Pakistan",
+    "city": "Lahore",
+    "traveling_country": "Saudi Arabia",
+    "max_daily_bookings": 100,
+    "monitoring_enabled": true,
+    "auto_booking_enabled": true
+  }
+}

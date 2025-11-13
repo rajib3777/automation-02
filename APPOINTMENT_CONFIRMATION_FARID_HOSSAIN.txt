@@ -1,0 +1,72 @@
+📋 APPOINTMENT & PAYMENT CONFIRMATION
+=====================================
+
+🗓️ Date Generated: September 21, 2025
+⏰ Time Generated: 16:05:27
+
+👤 CUSTOMER INFORMATION
+-----------------------
+Full Name: Farid Hossain
+Email: mominit8@gmail.com
+Passport Number: AE5241562
+
+🏥 APPOINTMENT DETAILS
+----------------------
+Appointment ID: 1
+Center: Precision Diagnostics Ltd
+Date: January 15, 2025
+Time: 10:30 AM
+Status: ✅ CONFIRMED
+
+💳 PAYMENT INFORMATION
+----------------------
+Payment ID: PAY_20250921_3BECA6BF
+Confirmation Code: 204FDA6B
+Amount: $10.00 USD
+Payment Method: Credit Card
+Payment Status: ✅ COMPLETED
+Payment Date: September 21, 2025
+
+🔐 SECURITY VERIFICATION
+------------------------
+• Your appointment has been verified and confirmed
+• Payment has been successfully processed
+• Confirmation codes have been generated
+• All details have been securely stored
+
+📋 IMPORTANT NOTES
+------------------
+✅ Your appointment is FULLY CONFIRMED
+✅ Payment has been SUCCESSFULLY PROCESSED
+✅ You can proceed with confidence
+
+🏥 CENTER CONTACT INFORMATION
+-----------------------------
+Center Name: Precision Diagnostics Ltd
+Address: [Center Address]
+Phone: +92-XXX-XXXXXXX
+Email: info@precisiondiagnostics.com
+Website: www.precisiondiagnostics.com
+
+📝 WHAT TO BRING ON APPOINTMENT DAY
+-----------------------------------
+1. Original Passport (AE5241562)
+2. This confirmation document
+3. Payment confirmation code: 204FDA6B
+4. Any additional documents required by the center
+
+⚠️ IMPORTANT REMINDERS
+----------------------
+• Arrive 15 minutes before your scheduled time
+• Bring all required documents
+• Contact the center if you need to reschedule
+• Keep this confirmation safe until your appointment
+
+🎉 CONFIRMATION STATUS: FULLY VERIFIED & PAID ✅
+
+For any queries, please contact the center directly or 
+refer to your confirmation codes above.
+
+=====================================
+End of Confirmation Document
+=====================================

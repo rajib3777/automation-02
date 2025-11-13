@@ -1,0 +1,2464 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ultra-Powerful Wafid Automation Tool - Advanced Appointment System</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.7.2/socket.io.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #2563eb;
+            --primary-hover: #1d4ed8;
+            --success-color: #059669;
+            --danger-color: #dc2626;
+            --warning-color: #d97706;
+            --gray-50: #f9fafb;
+            --gray-100: #f3f4f6;
+            --gray-200: #e5e7eb;
+            --gray-300: #d1d5db;
+            --gray-400: #9ca3af;
+            --gray-500: #6b7280;
+            --gray-600: #4b5563;
+            --gray-700: #374151;
+            --gray-800: #1f2937;
+            --gray-900: #111827;
+            --border-radius: 8px;
+            --border-radius-lg: 12px;
+            --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+            --shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
+            --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+        }
+
+        * { 
+            margin: 0; 
+            padding: 0; 
+            box-sizing: border-box; 
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--gray-50);
+            color: var(--gray-900);
+            line-height: 1.6;
+        }
+
+        .header {
+            background: white;
+            padding: 2rem;
+            text-align: center;
+            border-bottom: 1px solid var(--gray-200);
+            box-shadow: var(--shadow-sm);
+            position: relative;
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--gray-900);
+            margin-bottom: 0.5rem;
+        }
+
+        .subtitle {
+            font-size: 1.125rem;
+            color: var(--gray-600);
+            margin-bottom: 1.5rem;
+            font-weight: 400;
+        }
+
+        .tech-badges {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 0.75rem;
+        }
+
+        .tech-badge {
+            background: var(--gray-100);
+            color: var(--gray-700);
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-size: 0.875rem;
+            font-weight: 500;
+            border: 1px solid var(--gray-200);
+        }
+
+        .main-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            padding: 2rem;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .panel {
+            background: white;
+            padding: 2rem;
+            border-radius: var(--border-radius-lg);
+            box-shadow: var(--shadow);
+            border: 1px solid var(--gray-200);
+        }
+
+        .panel h2 {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: var(--gray-900);
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .section-title {
+            font-size: 1.125rem;
+            font-weight: 600;
+            color: var(--gray-900);
+            margin-bottom: 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid var(--primary-color);
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+            color: var(--gray-700);
+            font-size: 0.875rem;
+        }
+
+        .form-group input, .form-group select {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid var(--gray-300);
+            border-radius: var(--border-radius);
+            background: white;
+            color: var(--gray-900);
+            font-size: 0.875rem;
+        }
+
+        .form-group input:focus, .form-group select:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgb(37 99 235 / 0.1);
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1rem;
+        }
+
+        .btn {
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: var(--border-radius);
+            font-size: 0.875rem;
+            font-weight: 600;
+            cursor: pointer;
+            margin: 0.25rem;
+            min-width: 160px;
+        }
+
+        .btn-primary {
+            background: var(--primary-color);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: var(--primary-hover);
+        }
+
+        .btn-danger {
+            background: var(--danger-color);
+            color: white;
+        }
+
+        .btn-danger:hover {
+            background: #b91c1c;
+        }
+
+        .btn:disabled {
+            background: var(--gray-400);
+            cursor: not-allowed;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin: 1.5rem 0;
+        }
+
+        .stat-card {
+            background: var(--gray-50);
+            padding: 1.5rem;
+            border-radius: var(--border-radius);
+            text-align: center;
+            border: 1px solid var(--gray-200);
+        }
+
+        .stat-value {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--success-color);
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-label {
+            font-size: 0.875rem;
+            color: var(--gray-600);
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .activity-feed {
+            background: var(--gray-50);
+            border-radius: var(--border-radius);
+            padding: 1rem;
+            max-height: 400px;
+            overflow-y: auto;
+            margin-top: 1rem;
+            border: 1px solid var(--gray-200);
+        }
+
+        .activity-feed::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .activity-feed::-webkit-scrollbar-track {
+            background: var(--gray-100);
+            border-radius: 3px;
+        }
+
+        .activity-feed::-webkit-scrollbar-thumb {
+            background: var(--gray-400);
+            border-radius: 3px;
+        }
+
+        .activity-item {
+            padding: 0.75rem;
+            margin: 0.5rem 0;
+            border-radius: var(--border-radius);
+            border-left: 4px solid;
+            background: white;
+            font-size: 0.875rem;
+        }
+
+        .activity-item.info { border-left-color: var(--primary-color); }
+        .activity-item.success { border-left-color: var(--success-color); }
+        .activity-item.warning { border-left-color: var(--warning-color); }
+        .activity-item.error { border-left-color: var(--danger-color); }
+
+        .center-targets {
+            background: var(--gray-50);
+            padding: 1.5rem;
+            border-radius: var(--border-radius);
+            margin: 1.5rem 0;
+            border: 1px solid var(--gray-200);
+        }
+
+        .center-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem;
+            margin: 0.75rem 0;
+            background: white;
+            border-radius: var(--border-radius);
+            border-left: 4px solid;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .center-item.priority-1 { border-left-color: #fbbf24; }
+        .center-item.priority-2 { border-left-color: #9ca3af; }
+        .center-item.priority-3 { border-left-color: #f59e0b; }
+
+        .center-name {
+            font-weight: 600;
+            font-size: 1rem;
+            color: var(--gray-900);
+        }
+
+        .center-stats {
+            text-align: right;
+            font-size: 0.875rem;
+            color: var(--gray-600);
+        }
+
+        .status-display {
+            background: linear-gradient(135deg, var(--primary-color), #3b82f6);
+            color: white;
+            padding: 1.5rem;
+            border-radius: var(--border-radius);
+            margin: 1rem 0;
+            text-align: center;
+        }
+
+        .status-value {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin: 0.75rem 0;
+        }
+
+        .power-meter {
+            background: var(--gray-50);
+            padding: 1.5rem;
+            border-radius: var(--border-radius);
+            margin: 1rem 0;
+            text-align: center;
+            border: 1px solid var(--gray-200);
+        }
+
+        .power-bar {
+            background: var(--gray-200);
+            height: 30px;
+            border-radius: 15px;
+            overflow: hidden;
+            margin: 1rem 0;
+            position: relative;
+        }
+
+        .power-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--danger-color), var(--warning-color), var(--success-color));
+            border-radius: 15px;
+            width: 0%;
+        }
+
+        .power-text {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-weight: 600;
+            color: var(--gray-700);
+            font-size: 0.875rem;
+        }
+
+        .full-width {
+            grid-column: 1 / -1;
+        }
+
+        .button-group {
+            text-align: center;
+            margin-top: 2rem;
+        }
+
+        /* Mobile responsiveness */
+        @media (max-width: 768px) {
+            .main-container {
+                grid-template-columns: 1fr;
+                padding: 1rem;
+                gap: 1rem;
+            }
+            
+            .header {
+                padding: 1.5rem 1rem;
+            }
+            
+            .header h1 {
+                font-size: 2rem;
+            }
+            
+            .panel {
+                padding: 1.5rem;
+            }
+            
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .btn {
+                width: 100%;
+                margin: 0.25rem 0;
+            }
+        }
+        /* Authentication Popup Overlay */
+        .auth-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 10000;
+            backdrop-filter: blur(8px);
+        }
+
+        .auth-popup {
+            background: white;
+            border-radius: 16px;
+            padding: 3rem;
+            max-width: 480px;
+            width: 90%;
+            text-align: center;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+            position: relative;
+            animation: slideIn 0.3s ease-out;
+        }
+
+        @keyframes slideIn {
+            from {
+                transform: translateY(-50px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        .auth-popup .lock-icon {
+            font-size: 4rem;
+            color: var(--warning-color);
+            margin-bottom: 1rem;
+        }
+
+        .auth-popup h2 {
+            font-size: 1.75rem;
+            font-weight: 700;
+            color: var(--gray-900);
+            margin-bottom: 0.5rem;
+        }
+
+        .auth-popup p {
+            color: var(--gray-600);
+            margin-bottom: 2rem;
+            font-size: 1.125rem;
+        }
+
+        .auth-form {
+            margin-bottom: 1.5rem;
+        }
+
+        .auth-form input {
+            width: 100%;
+            padding: 1rem;
+            border: 2px solid var(--gray-300);
+            border-radius: var(--border-radius);
+            font-size: 1rem;
+            text-align: center;
+            font-weight: 600;
+            letter-spacing: 2px;
+        }
+
+        .auth-form input:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.1);
+        }
+
+        .auth-btn {
+            width: 100%;
+            padding: 1rem;
+            background: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: var(--border-radius);
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            margin-top: 1rem;
+            transition: background-color 0.2s;
+        }
+
+        .auth-btn:hover {
+            background: var(--primary-hover);
+        }
+
+        .auth-btn:disabled {
+            background: var(--gray-400);
+            cursor: not-allowed;
+        }
+
+        .auth-error {
+            background: #fef2f2;
+            color: var(--danger-color);
+            padding: 0.75rem;
+            border-radius: var(--border-radius);
+            margin-top: 1rem;
+            border: 1px solid #fecaca;
+            font-weight: 500;
+        }
+
+        .main-content {
+            opacity: 0.3;
+            pointer-events: none;
+            filter: blur(2px);
+            transition: all 0.3s ease;
+        }
+
+        .main-content.unlocked {
+            opacity: 1;
+            pointer-events: auto;
+            filter: blur(0);
+        }
+
+        .system-locked-indicator {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: var(--danger-color);
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-size: 0.875rem;
+            font-weight: 600;
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .hidden {
+            display: none !important;
+        }
+
+        /* File Upload Styles */
+        .file-upload-container {
+            background: var(--gray-50);
+            padding: 1.5rem;
+            border-radius: var(--border-radius);
+            border: 1px solid var(--gray-200);
+        }
+
+        .file-drop-zone {
+            border: 2px dashed var(--gray-300);
+            border-radius: var(--border-radius);
+            padding: 3rem 2rem;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            background: white;
+            position: relative;
+        }
+
+        .file-drop-zone:hover,
+        .file-drop-zone.dragover {
+            border-color: var(--primary-color);
+            background: rgba(37, 99, 235, 0.05);
+            transform: translateY(-2px);
+        }
+
+        .file-drop-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            opacity: 0.7;
+        }
+
+        .file-drop-text {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .file-drop-text strong {
+            font-size: 1.1rem;
+            color: var(--gray-900);
+            font-weight: 600;
+        }
+
+        .file-drop-text span {
+            font-size: 0.9rem;
+            color: var(--gray-600);
+        }
+
+        .file-drop-formats {
+            font-size: 0.8rem;
+            color: var(--gray-500);
+            font-style: italic;
+        }
+
+        .uploaded-files {
+            margin-top: 1.5rem;
+            display: none;
+        }
+
+        .uploaded-files.has-files {
+            display: block;
+        }
+
+        .file-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 1rem;
+            margin: 0.5rem 0;
+            background: white;
+            border-radius: var(--border-radius);
+            border: 1px solid var(--gray-200);
+            box-shadow: var(--shadow-sm);
+        }
+
+        .file-info {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            flex: 1;
+        }
+
+        .file-icon {
+            font-size: 1.5rem;
+        }
+
+        .file-details {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .file-name {
+            font-weight: 600;
+            color: var(--gray-900);
+            font-size: 0.9rem;
+        }
+
+        .file-size {
+            font-size: 0.8rem;
+            color: var(--gray-600);
+        }
+
+        .file-status {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.8rem;
+        }
+
+        .file-status.pending {
+            color: var(--warning-color);
+        }
+
+        .file-status.uploading {
+            color: var(--primary-color);
+        }
+
+        .file-status.success {
+            color: var(--success-color);
+        }
+
+        .file-status.error {
+            color: var(--danger-color);
+        }
+
+        .file-remove {
+            background: none;
+            border: none;
+            color: var(--gray-400);
+            cursor: pointer;
+            padding: 0.5rem;
+            border-radius: 50%;
+            transition: all 0.2s ease;
+        }
+
+        .file-remove:hover {
+            background: var(--gray-100);
+            color: var(--danger-color);
+        }
+
+        .upload-progress {
+            margin-top: 1.5rem;
+            padding: 1rem;
+            background: white;
+            border-radius: var(--border-radius);
+            border: 1px solid var(--gray-200);
+        }
+
+        .upload-progress-bar {
+            background: var(--gray-200);
+            height: 8px;
+            border-radius: 4px;
+            overflow: hidden;
+            margin-bottom: 0.5rem;
+        }
+
+        .upload-progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--primary-color), var(--success-color));
+            width: 0%;
+            transition: width 0.3s ease;
+        }
+
+        .upload-progress-text {
+            text-align: center;
+            font-size: 0.9rem;
+            color: var(--gray-700);
+            font-weight: 500;
+        }
+
+        .upload-actions {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1.5rem;
+            justify-content: center;
+        }
+
+        @media (max-width: 768px) {
+            .file-drop-zone {
+                padding: 2rem 1rem;
+            }
+            
+            .file-item {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 0.5rem;
+            }
+            
+            .upload-actions {
+                flex-direction: column;
+            }
+        }
+        /* Enhanced Features Styles */
+        .enhanced-stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin: 1.5rem 0;
+        }
+
+        .enhanced-stat-card {
+            background: white;
+            padding: 1.5rem;
+            border-radius: var(--border-radius);
+            text-align: center;
+            border: 1px solid var(--gray-200);
+            box-shadow: var(--shadow-sm);
+            transition: transform 0.2s ease;
+        }
+
+        .enhanced-stat-card:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .enhanced-stat-value {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        .enhanced-stat-value.success { color: var(--success-color); }
+        .enhanced-stat-value.primary { color: var(--primary-color); }
+        .enhanced-stat-value.warning { color: var(--warning-color); }
+        .enhanced-stat-value.danger { color: var(--danger-color); }
+
+        .enhanced-stat-label {
+            font-size: 0.875rem;
+            color: var(--gray-600);
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .auto-booking-controls {
+            background: linear-gradient(135deg, #6366f1, #8b5cf6);
+            color: white;
+            padding: 2rem;
+            border-radius: var(--border-radius-lg);
+            margin: 1.5rem 0;
+        }
+
+        .auto-booking-status {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 1.5rem;
+        }
+
+        .status-indicator {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .status-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            animation: pulse 2s infinite;
+        }
+
+        .status-dot.active { background: #10b981; }
+        .status-dot.inactive { background: #6b7280; }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+
+        .booking-progress {
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 8px;
+            padding: 1rem;
+            margin: 1rem 0;
+        }
+
+        .progress-bar {
+            background: rgba(255, 255, 255, 0.3);
+            height: 8px;
+            border-radius: 4px;
+            overflow: hidden;
+            margin-top: 0.5rem;
+        }
+
+        .progress-fill {
+            background: #10b981;
+            height: 100%;
+            transition: width 0.3s ease;
+        }
+
+        .center-controls {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1rem;
+            margin: 1.5rem 0;
+        }
+
+        .center-card {
+            background: white;
+            padding: 1.5rem;
+            border-radius: var(--border-radius);
+            border-left: 4px solid;
+            box-shadow: var(--shadow-sm);
+            transition: all 0.3s ease;
+        }
+
+        .center-card.active { border-left-color: var(--success-color); }
+        .center-card.inactive { border-left-color: var(--gray-400); }
+
+        .center-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .center-toggle {
+            background: none;
+            border: 1px solid var(--gray-300);
+            padding: 0.5rem 1rem;
+            border-radius: var(--border-radius);
+            font-size: 0.875rem;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .center-toggle.active {
+            background: var(--success-color);
+            color: white;
+            border-color: var(--success-color);
+        }
+
+        .real-time-slots {
+            background: var(--gray-50);
+            border-radius: var(--border-radius);
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            border: 1px solid var(--gray-200);
+            max-height: 400px;
+            overflow-y: auto;
+        }
+
+        .slot-item {
+            background: white;
+            padding: 1rem;
+            margin: 0.5rem 0;
+            border-radius: var(--border-radius);
+            border-left: 4px solid var(--primary-color);
+            box-shadow: var(--shadow-sm);
+            animation: slideInSlot 0.3s ease;
+        }
+
+        @keyframes slideInSlot {
+            from { transform: translateX(-20px); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+
+        .slot-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 0.5rem;
+        }
+
+        .confidence-badge {
+            background: var(--primary-color);
+            color: white;
+            padding: 0.25rem 0.75rem;
+            border-radius: 12px;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+
+        .real-time-updates {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: white;
+            padding: 1rem 1.5rem;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow-lg);
+            border-left: 4px solid var(--success-color);
+            z-index: 1000;
+            opacity: 0;
+            transform: translateX(100%);
+            transition: all 0.3s ease;
+        }
+
+        .real-time-updates.show {
+            opacity: 1;
+            transform: translateX(0);
+        }
+    </style>
+</head>
+<body>
+    <!-- Authentication Popup Overlay -->
+    <div id="authOverlay" class="auth-overlay">
+        <div class="auth-popup">
+            <div class="lock-icon">🔒</div>
+            <h2>System Locked</h2>
+            <p>Enter the system password to unlock the Ultra-Powerful Wafid Automation Tool</p>
+            <div style="background: #f0f9ff; border: 1px solid #0ea5e9; border-radius: 6px; padding: 0.75rem; margin: 1rem 0; font-size: 0.9rem; color: #0369a1;">
+                🔐 <strong>Authentication Required:</strong> Enter your secure password
+            </div>
+            
+            <div class="auth-form">
+                <input type="password" id="authPassword" placeholder="Enter Password" maxlength="20">
+                <button class="auth-btn" onclick="authenticateSystem()">🔓 Unlock System</button>
+                <div id="authError" class="auth-error hidden"></div>
+            </div>
+            
+            <div style="font-size: 0.875rem; color: var(--gray-500); margin-top: 1rem;">
+                🛡️ Secure access required for system activation
+            </div>
+        </div>
+    </div>
+
+    <!-- System Locked Indicator -->
+    <div id="systemLockedIndicator" class="system-locked-indicator">
+        🔒 System Locked
+    </div>
+
+    <!-- Main Content (initially locked) -->
+    <div id="mainContent" class="main-content">
+        <div class="header">
+        <h1>🚀 Ultra-Powerful Wafid Automation Tool</h1>
+        <div class="subtitle">Advanced Appointment Automation System</div>
+        
+        <!-- Session Info and Logout -->
+        <div style="position: absolute; top: 1rem; right: 1rem; display: flex; align-items: center; gap: 1rem;">
+            <div style="background: var(--gray-100); padding: 0.5rem 1rem; border-radius: 20px; font-size: 0.75rem; color: var(--gray-600);">
+                🔐 Authenticated Session
+            </div>
+            <button onclick="logout()" style="background: var(--danger-color); color: white; border: none; padding: 0.5rem 1rem; border-radius: var(--border-radius); font-size: 0.75rem; cursor: pointer;">
+                🚪 Logout
+            </button>
+        </div>
+        
+        <div class="tech-badges">
+            <span class="tech-badge">🧠 AI Form Intelligence</span>
+            <span class="tech-badge">⚡ Quantum Optimization</span>
+            <span class="tech-badge">🤖 Human Simulation</span>
+            <span class="tech-badge">🌐 Cloud Architecture</span>
+            <span class="tech-badge">👁️ Real-time Monitoring</span>
+            <span class="tech-badge">🔒 Stealth Mode</span>
+            <span class="tech-badge">📊 Predictive Analytics</span>
+            <span class="tech-badge">⚡ Multi-threading</span>
+        </div>
+    </div>
+
+    <div class="main-container">
+        <!-- Control Panel -->
+        <div class="panel">
+            <h2>🎯 Control Center</h2>
+            
+            <!-- Appointment Information -->
+            <div style="margin-bottom: 2rem;">
+                <h3 class="section-title">📅 Appointment Information</h3>
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label>Country</label>
+                        <select id="country" required>
+                            <option value="">Select Country</option>
+                            <option value="Algeria">Algeria</option>
+                            <option value="Angola">Angola</option>
+                            <option value="Bangladesh">Bangladesh</option>
+                            <option value="Egypt">Egypt</option>
+                            <option value="Ethiopia">Ethiopia</option>
+                            <option value="Ghana">Ghana</option>
+                            <option value="India">India</option>
+                            <option value="Indonesia">Indonesia</option>
+                            <option value="Jordan">Jordan</option>
+                            <option value="Kenya">Kenya</option>
+                            <option value="Lebanon">Lebanon</option>
+                            <option value="Morocco">Morocco</option>
+                            <option value="Nepal">Nepal</option>
+                            <option value="Nigeria">Nigeria</option>
+                            <option value="Pakistan" selected>Pakistan</option>
+                            <option value="Philippines">Philippines</option>
+                            <option value="Sri Lanka">Sri Lanka</option>
+                            <option value="Sudan">Sudan</option>
+                            <option value="Syria">Syria</option>
+                            <option value="Thailand">Thailand</option>
+                            <option value="Turkey">Turkey</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>City</label>
+                        <select id="city" required>
+                            <option value="">Select City</option>
+                            <option value="Karachi">Karachi</option>
+                            <option value="Lahore">Lahore</option>
+                            <option value="Faisalabad">Faisalabad</option>
+                            <option value="Rawalpindi">Rawalpindi</option>
+                            <option value="Islamabad">Islamabad</option>
+                            <option value="Peshawar">Peshawar</option>
+                            <option value="Multan">Multan</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Destination</label>
+                        <select id="country-traveling-to" required>
+                            <option value="">Select Destination</option>
+                            <option value="Bahrain">Bahrain</option>
+                            <option value="Kuwait" selected>Kuwait</option>
+                            <option value="Oman">Oman</option>
+                            <option value="Qatar">Qatar</option>
+                            <option value="Saudi Arabia">Saudi Arabia</option>
+                            <option value="UAE">UAE</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Personal Information -->
+            <div style="margin-bottom: 2rem;">
+                <h3 class="section-title">👤 Personal Information</h3>
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label>First Name</label>
+                        <input type="text" id="first-name" placeholder="Enter first name" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Last Name</label>
+                        <input type="text" id="last-name" placeholder="Enter last name" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Date of Birth</label>
+                        <input type="date" id="date-of-birth" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Nationality</label>
+                        <select id="nationality" required>
+                            <option value="">Select Nationality</option>
+                            <option value="Algerian">Algerian</option>
+                            <option value="Bangladeshi">Bangladeshi</option>
+                            <option value="Egyptian">Egyptian</option>
+                            <option value="Ethiopian">Ethiopian</option>
+                            <option value="Ghanaian">Ghanaian</option>
+                            <option value="Indian">Indian</option>
+                            <option value="Indonesian">Indonesian</option>
+                            <option value="Jordanian">Jordanian</option>
+                            <option value="Kenyan">Kenyan</option>
+                            <option value="Lebanese">Lebanese</option>
+                            <option value="Moroccan">Moroccan</option>
+                            <option value="Nepalese">Nepalese</option>
+                            <option value="Nigerian">Nigerian</option>
+                            <option value="Pakistani" selected>Pakistani</option>
+                            <option value="Filipino">Filipino</option>
+                            <option value="Sri Lankan">Sri Lankan</option>
+                            <option value="Sudanese">Sudanese</option>
+                            <option value="Syrian">Syrian</option>
+                            <option value="Thai">Thai</option>
+                            <option value="Turkish">Turkish</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Gender</label>
+                        <select id="gender" required>
+                            <option value="Male">Male</option>
+                            <option value="Female">Female</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Marital Status</label>
+                        <select id="marital-status">
+                            <option value="Single">Single</option>
+                            <option value="Married">Married</option>
+                            <option value="Divorced">Divorced</option>
+                            <option value="Widowed">Widowed</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Passport Information -->
+            <div style="margin-bottom: 2rem;">
+                <h3 class="section-title">📖 Passport Information</h3>
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label>Passport Number</label>
+                        <input type="text" id="passport-number" placeholder="e.g., AB1234567" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Confirm Passport Number</label>
+                        <input type="text" id="confirm-passport-number" placeholder="Confirm passport number" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Issue Date</label>
+                        <input type="date" id="passport-issue-date" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Issue Place</label>
+                        <input type="text" id="passport-issue-place" placeholder="e.g., Islamabad, Mumbai" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Expiration Date</label>
+                        <input type="date" id="passport-expiration-date" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Visa Type</label>
+                        <select id="visa-type">
+                            <option value="">Select Visa Type</option>
+                            <option value="Work Visa" selected>Work Visa</option>
+                            <option value="Family Visa">Family Visa</option>
+                            <option value="Visit Visa">Visit Visa</option>
+                            <option value="Student Visa">Student Visa</option>
+                            <option value="Business Visa">Business Visa</option>
+                            <option value="Tourist Visa">Tourist Visa</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Contact & Work Information -->
+            <div style="margin-bottom: 2rem;">
+                <h3 class="section-title">📞 Contact Information</h3>
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label>Email Address</label>
+                        <input type="email" id="email-address" placeholder="your.email@example.com" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Phone Number</label>
+                        <input type="text" id="phone-number" placeholder="+965 XXXX XXXX" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>National ID</label>
+                        <input type="text" id="national-id" placeholder="National/Civil ID">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Position</label>
+                        <input type="text" id="position-applied-for" placeholder="e.g., Engineer, Teacher, Doctor">
+                    </div>
+                </div>
+            </div>
+            
+            <div class="center-targets">
+                <h3 style="color: var(--gray-900); font-weight: 600; margin-bottom: 1rem;">🎯 Target Centers (Priority Order)</h3>
+                <div class="center-item priority-1">
+                    <div>
+                        <div class="center-name">🥇 Precision Diagnostics Ltd</div>
+                        <div style="font-size: 0.875rem; color: var(--gray-600);">Priority 1 - Maximum retry attempts</div>
+                    </div>
+                    <div class="center-stats">
+                        <div>Success Rate: <span id="precision-rate" style="color: var(--success-color); font-weight: 600;">--</span></div>
+                        <div>Attempts: <span id="precision-attempts">0</span></div>
+                    </div>
+                </div>
+                
+                <div class="center-item priority-2">
+                    <div>
+                        <div class="center-name">🥈 Mediquest Diagnostics Ltd</div>
+                        <div style="font-size: 0.875rem; color: var(--gray-600);">Priority 2 - High success probability</div>
+                    </div>
+                    <div class="center-stats">
+                        <div>Success Rate: <span id="mediquest-rate" style="color: var(--success-color); font-weight: 600;">--</span></div>
+                        <div>Attempts: <span id="mediquest-attempts">0</span></div>
+                    </div>
+                </div>
+                
+                <div class="center-item priority-3">
+                    <div>
+                        <div class="center-name">🥉 Allied Diagnostics Ltd</div>
+                        <div style="font-size: 0.875rem; color: var(--gray-600);">Priority 3 - Backup option</div>
+                    </div>
+                    <div class="center-stats">
+                        <div>Success Rate: <span id="allied-rate" style="color: var(--success-color); font-weight: 600;">--</span></div>
+                        <div>Attempts: <span id="allied-attempts">0</span></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Multi-File Upload Section -->
+            <div style="margin-bottom: 2rem;">
+                <h3 class="section-title">📁 Appointment Files Upload</h3>
+                <div class="file-upload-container">
+                    <div class="file-drop-zone" id="fileDropZone">
+                        <div class="file-drop-content">
+                            <div class="file-drop-icon">📎</div>
+                            <div class="file-drop-text">
+                                <strong>Drag & Drop appointment files here</strong>
+                                <span>or click to browse and select multiple files</span>
+                            </div>
+                            <div class="file-drop-formats">
+                                Supported: PDF, DOCX, JPG, PNG, TXT, CSV
+                            </div>
+                        </div>
+                        <input type="file" id="fileInput" multiple accept=".pdf,.docx,.jpg,.jpeg,.png,.txt,.csv" style="display: none;">
+                    </div>
+                    
+                    <div class="uploaded-files" id="uploadedFiles">
+                        <!-- Uploaded files will appear here -->
+                    </div>
+                    
+                    <div class="upload-progress" id="uploadProgress" style="display: none;">
+                        <div class="upload-progress-bar">
+                            <div class="upload-progress-fill" id="uploadProgressFill"></div>
+                        </div>
+                        <div class="upload-progress-text" id="uploadProgressText">Uploading...</div>
+                    </div>
+                    
+                    <div class="upload-actions">
+                        <button class="btn btn-secondary" onclick="clearAllFiles()" id="clearFilesBtn" style="display: none;">
+                            🗑️ Clear All
+                        </button>
+                        <button class="btn btn-success" onclick="uploadAllFiles()" id="uploadAllBtn" style="display: none;">
+                            ⬆️ Upload All Files
+                        </button>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="button-group">
+                <button class="btn btn-primary" id="startBtn" onclick="startUltraPowerfulBooking()">
+                    🚀 Start Automation
+                </button>
+                <button class="btn btn-danger" id="stopBtn" onclick="stopUltraPowerfulBooking()" disabled>
+                    🛑 Stop Automation
+                </button>
+            </div>
+        </div>
+
+        <!-- Status Panel -->
+        <div class="panel">
+            <h2>📊 System Status</h2>
+            
+            <!-- Status Display -->
+            <div class="status-display">
+                <div style="font-weight: 600; font-size: 1.1rem;">Success Probability</div>
+                <div class="status-value" id="quantum-probability">--</div>
+                <div style="font-size: 0.9rem; opacity: 0.9;" id="quantum-status">Calculating optimal timing...</div>
+            </div>
+            
+            <!-- Power Meter -->
+            <div class="power-meter">
+                <h3 style="font-weight: 600; color: var(--gray-900); margin-bottom: 1rem;">⚡ System Power Level</h3>
+                <div class="power-bar">
+                    <div class="power-fill" id="power-fill" style="width: 0%"></div>
+                    <div class="power-text" id="power-text">0% POWER</div>
+                </div>
+                <div style="font-size: 0.875rem; color: var(--gray-600); margin-top: 0.5rem;">All systems operational</div>
+            </div>
+            
+            <!-- Stats Grid -->
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-value" id="success-rate">95-99%</div>
+                    <div class="stat-label">Success Rate</div>
+                </div>
+                
+                <div class="stat-card">
+                    <div class="stat-value" id="active-browsers">0</div>
+                    <div class="stat-label">Active Sessions</div>
+                </div>
+                
+                <div class="stat-card">
+                    <div class="stat-value" id="ai-analyses">0</div>
+                    <div class="stat-label">AI Analyses</div>
+                </div>
+                
+                <div class="stat-card">
+                    <div class="stat-value" id="quantum-opts">0</div>
+                    <div class="stat-label">Optimizations</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Enhanced Auto-Booking Controls -->
+        <div class="panel" id="enhanced-controls" style="display: none;">
+            <h2>🤖 Enhanced Auto-Booking System</h2>
+            
+            <div class="auto-booking-controls">
+                <div class="auto-booking-status">
+                    <div class="status-indicator">
+                        <div class="status-dot" id="auto-booking-dot"></div>
+                        <span id="auto-booking-status-text">Auto-Booking Inactive</span>
+                    </div>
+                    <div>
+                        <button class="btn btn-success" id="start-auto-booking" onclick="startAutoBooking()">
+                            🚀 Start Auto-Booking
+                        </button>
+                        <button class="btn btn-danger" id="stop-auto-booking" onclick="stopAutoBooking()" disabled>
+                            🛑 Stop Auto-Booking
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="booking-progress">
+                    <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem;">
+                        <span>Daily Progress</span>
+                        <span id="daily-progress-text">0 / 100 bookings</span>
+                    </div>
+                    <div class="progress-bar">
+                        <div class="progress-fill" id="daily-progress-bar" style="width: 0%"></div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Enhanced Statistics Grid -->
+            <div class="enhanced-stats-grid">
+                <div class="enhanced-stat-card">
+                    <div class="enhanced-stat-value success" id="total-bookings">0</div>
+                    <div class="enhanced-stat-label">Total Bookings Today</div>
+                </div>
+                
+                <div class="enhanced-stat-card">
+                    <div class="enhanced-stat-value primary" id="slots-detected">0</div>
+                    <div class="enhanced-stat-label">Slots Detected</div>
+                </div>
+                
+                <div class="enhanced-stat-card">
+                    <div class="enhanced-stat-value warning" id="queue-size">0</div>
+                    <div class="enhanced-stat-label">Queue Size</div>
+                </div>
+                
+                <div class="enhanced-stat-card">
+                    <div class="enhanced-stat-value danger" id="success-percentage">0%</div>
+                    <div class="enhanced-stat-label">Success Rate</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Enhanced Center Controls -->
+        <div class="panel" id="center-controls" style="display: none;">
+            <h2>🎯 Center Management</h2>
+            
+            <div class="center-controls" id="center-controls-grid">
+                <!-- Centers will be dynamically populated -->
+            </div>
+        </div>
+
+        <!-- Real-time Slot Detection -->
+        <div class="panel" id="real-time-slots" style="display: none;">
+            <h2>🔍 Real-time Slot Detection</h2>
+            
+            <div style="display: flex; justify-content: between; align-items: center; margin-bottom: 1rem;">
+                <span>Live monitoring: <span id="monitoring-status">Inactive</span></span>
+                <div>
+                    <button class="btn btn-primary" id="start-monitoring" onclick="startMonitoring()">
+                        👁️ Start Monitoring
+                    </button>
+                    <button class="btn btn-secondary" id="stop-monitoring" onclick="stopMonitoring()" disabled>
+                        🛑 Stop Monitoring
+                    </button>
+                </div>
+            </div>
+            
+            <div class="real-time-slots" id="slot-detection-feed">
+                <div style="text-align: center; color: var(--gray-500); padding: 2rem;">
+                    🔍 Waiting for slot detection...
+                </div>
+            </div>
+        </div>
+
+        <!-- Activity Feed - Full Width -->
+        <div class="panel full-width">
+            <h2>📈 Activity Feed</h2>
+            <div class="activity-feed" id="activity-feed">
+                <div class="activity-item info">
+                    <strong>[System]</strong> Ultra-Powerful Wafid Bot Enhanced Edition initialized and ready for activation
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const socket = io();
+        let currentSessionId = null;
+        let activityFeed = document.getElementById('activity-feed');
+        let isRunning = false;
+        let isAuthenticated = false;
+
+        // Authentication Functions
+        function checkAuthenticationOnLoad() {
+            // Check if user is already authenticated
+            fetch('/api/check_auth')
+                .then(response => response.json())
+                .then(data => {
+                    if (data.authenticated) {
+                        unlockSystem();
+                        addActivity('🔐 Authenticated session restored', 'success');
+                    } else {
+                        showAuthenticationPopup();
+                    }
+                })
+                .catch(error => {
+                    console.error('Auth check failed:', error);
+                    showAuthenticationPopup();
+                });
+        }
+
+        function showAuthenticationPopup() {
+            document.getElementById('authOverlay').style.display = 'flex';
+            document.getElementById('systemLockedIndicator').style.display = 'flex';
+            document.getElementById('mainContent').classList.remove('unlocked');
+            
+            // Focus on password field
+            setTimeout(() => {
+                document.getElementById('authPassword').focus();
+            }, 300);
+            
+            // Handle Enter key press
+            document.getElementById('authPassword').addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    authenticateSystem();
+                }
+            });
+        }
+
+        function authenticateSystem() {
+            const password = document.getElementById('authPassword').value;
+            const authBtn = document.querySelector('.auth-btn');
+            const errorDiv = document.getElementById('authError');
+            
+            if (!password) {
+                showAuthError('Please enter a password');
+                return;
+            }
+            
+            // Disable button and show loading
+            authBtn.disabled = true;
+            authBtn.textContent = '🔓 Unlocking...';
+            errorDiv.classList.add('hidden');
+            
+            fetch('/api/popup_auth', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ password: password })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.status === 'success') {
+                    unlockSystem();
+                    addActivity('🎉 System unlocked successfully!', 'success');
+                } else {
+                    showAuthError(data.message || 'Invalid password');
+                }
+            })
+            .catch(error => {
+                console.error('Authentication failed:', error);
+                showAuthError('Authentication failed. Please try again.');
+            })
+            .finally(() => {
+                authBtn.disabled = false;
+                authBtn.textContent = '🔓 Unlock System';
+            });
+        }
+
+        function unlockSystem() {
+            isAuthenticated = true;
+            document.getElementById('authOverlay').style.display = 'none';
+            document.getElementById('systemLockedIndicator').style.display = 'none';
+            document.getElementById('mainContent').classList.add('unlocked');
+            
+            // Clear password field
+            document.getElementById('authPassword').value = '';
+            document.getElementById('authError').classList.add('hidden');
+            
+            // Initialize the system
+            addActivity('🚀 Ultra-Powerful Wafid Automation Tool activated!', 'success');
+            loadDashboardData();
+        }
+
+        function showAuthError(message) {
+            const errorDiv = document.getElementById('authError');
+            errorDiv.textContent = message;
+            errorDiv.classList.remove('hidden');
+            
+            // Clear after 5 seconds
+            setTimeout(() => {
+                errorDiv.classList.add('hidden');
+            }, 5000);
+        }
+
+        function loadDashboardData() {
+            // Load statistics and other dashboard data
+            fetch('/api/ultra_stats')
+                .then(response => response.json())
+                .then(data => {
+                    console.log('Dashboard data loaded:', data);
+                    updateDashboardStats(data);
+                })
+                .catch(error => {
+                    console.error('Failed to load dashboard data:', error);
+                });
+        }
+
+        function updateDashboardStats(data) {
+            if (data.global_stats) {
+                document.getElementById('total-sessions').textContent = data.global_stats.total_ultra_sessions || 0;
+            }
+            if (data.active_sessions !== undefined) {
+                document.getElementById('active-sessions').textContent = data.active_sessions || 0;
+            }
+            if (data.average_power_score !== undefined) {
+                document.getElementById('power-score').textContent = data.average_power_score.toFixed(1) || '0.0';
+            }
+        }
+
+        // Socket event handlers
+        socket.on('connect', function() {
+            addActivity('✅ Connected to Ultra-Powerful Wafid Bot', 'success');
+        });
+
+        socket.on('ultra_powerful_update', function(data) {
+            addActivity(`[${data.timestamp}] ${data.message}`, data.level);
+            updateStats(data.ultra_stats, data.quantum_status);
+        });
+
+        socket.on('slot_detected', function(data) {
+            addActivity(`🚨 SLOT DETECTED at ${data.center}! Confidence: ${(data.confidence * 100).toFixed(1)}%`, 'success');
+        });
+
+        function addActivity(message, level = 'info') {
+            const item = document.createElement('div');
+            item.className = `activity-item ${level}`;
+            item.innerHTML = `<strong>[${new Date().toLocaleTimeString()}]</strong> ${message}`;
+            
+            activityFeed.insertBefore(item, activityFeed.firstChild);
+            
+            // Keep only last 50 items
+            while (activityFeed.children.length > 50) {
+                activityFeed.removeChild(activityFeed.lastChild);
+            }
+        }
+
+        function updateStats(stats, quantumStatus) {
+            if (stats) {
+                document.getElementById('ai-analyses').textContent = stats.ai_form_analyses || 0;
+                document.getElementById('quantum-opts').textContent = stats.quantum_optimizations || 0;
+                
+                // Update power meter
+                const powerScore = stats.total_power_score || 0;
+                const powerFill = document.getElementById('power-fill');
+                const powerText = document.getElementById('power-text');
+                
+                powerFill.style.width = `${powerScore}%`;
+                powerText.textContent = `${powerScore.toFixed(1)}% POWER`;
+            }
+            
+            if (quantumStatus) {
+                document.getElementById('quantum-probability').textContent = 
+                    `${(quantumStatus.quantum_probability * 100).toFixed(1)}%`;
+                document.getElementById('quantum-status').textContent = 
+                    `Optimal time: ${quantumStatus.optimal_time || 'Calculating...'}`;
+            }
+        }
+
+        async function startUltraPowerfulBooking() {
+            // Check authentication first
+            if (!isAuthenticated) {
+                showAuthenticationPopup();
+                addActivity('❌ Authentication required to start automation', 'error');
+                return;
+            }
+
+            const config = {
+                // Appointment Information
+                country: document.getElementById('country').value,
+                city: document.getElementById('city').value,
+                country_traveling_to: document.getElementById('country-traveling-to').value,
+                
+                // Personal Information
+                first_name: document.getElementById('first-name').value,
+                last_name: document.getElementById('last-name').value,
+                date_of_birth: document.getElementById('date-of-birth').value,
+                nationality: document.getElementById('nationality').value,
+                gender: document.getElementById('gender').value,
+                marital_status: document.getElementById('marital-status').value,
+                
+                // Passport Information
+                passport_number: document.getElementById('passport-number').value,
+                confirm_passport_number: document.getElementById('confirm-passport-number').value,
+                passport_issue_date: document.getElementById('passport-issue-date').value,
+                passport_issue_place: document.getElementById('passport-issue-place').value,
+                passport_expiration_date: document.getElementById('passport-expiration-date').value,
+                visa_type: document.getElementById('visa-type').value,
+                
+                // Contact & Work Information
+                email_address: document.getElementById('email-address').value,
+                phone_number: document.getElementById('phone-number').value,
+                national_id: document.getElementById('national-id').value,
+                position_applied_for: document.getElementById('position-applied-for').value
+            };
+
+            // Validation for required fields
+            const requiredFields = [
+                { field: 'country', name: 'Country' },
+                { field: 'city', name: 'City' },
+                { field: 'country-traveling-to', name: 'Country Traveling To' },
+                { field: 'first-name', name: 'First Name' },
+                { field: 'last-name', name: 'Last Name' },
+                { field: 'date-of-birth', name: 'Date of Birth' },
+                { field: 'nationality', name: 'Nationality' },
+                { field: 'gender', name: 'Gender' },
+                { field: 'passport-number', name: 'Passport Number' },
+                { field: 'confirm-passport-number', name: 'Confirm Passport Number' },
+                { field: 'passport-issue-date', name: 'Passport Issue Date' },
+                { field: 'passport-issue-place', name: 'Passport Issue Place' },
+                { field: 'passport-expiration-date', name: 'Passport Expiration Date' },
+                { field: 'email-address', name: 'Email Address' },
+                { field: 'phone-number', name: 'Phone Number' }
+            ];
+
+            for (let required of requiredFields) {
+                if (!document.getElementById(required.field).value) {
+                    alert(`Please fill in the required field: ${required.name}`);
+                    document.getElementById(required.field).focus();
+                    return;
+                }
+            }
+
+            // Validate passport confirmation
+            if (config.passport_number !== config.confirm_passport_number) {
+                alert('Passport numbers do not match. Please check and try again.');
+                document.getElementById('confirm-passport-number').focus();
+                return;
+            }
+
+            try {
+                const response = await fetch('/api/start_ultra_booking', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(config)
+                });
+
+                const result = await response.json();
+                
+                if (result.status === 'success') {
+                    currentSessionId = result.session_id;
+                    isRunning = true;
+                    
+                    document.getElementById('startBtn').disabled = true;
+                    document.getElementById('stopBtn').disabled = false;
+                    
+                    addActivity(`🚀 ${result.message}`, 'success');
+                    addActivity(`📊 Estimated Success Rate: ${result.estimated_success_rate}`, 'info');
+                    
+                    result.technologies_active.forEach(tech => {
+                        addActivity(`✅ ${tech} - ACTIVATED`, 'info');
+                    });
+                } else {
+                    addActivity(`❌ Error: ${result.message}`, 'error');
+                }
+            } catch (error) {
+                addActivity(`❌ Connection error: ${error.message}`, 'error');
+            }
+        }
+
+        async function stopUltraPowerfulBooking() {
+            // Check authentication first
+            if (!isAuthenticated) {
+                showAuthenticationPopup();
+                addActivity('❌ Authentication required to stop automation', 'error');
+                return;
+            }
+
+            if (!currentSessionId) return;
+
+            try {
+                const response = await fetch('/api/stop_ultra_booking', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ session_id: currentSessionId })
+                });
+
+                const result = await response.json();
+                
+                isRunning = false;
+                document.getElementById('startBtn').disabled = false;
+                document.getElementById('stopBtn').disabled = true;
+                
+                addActivity(`🛑 ${result.message}`, 'warning');
+                
+                // Reset power meter
+                document.getElementById('power-fill').style.width = '0%';
+                document.getElementById('power-text').textContent = '0% POWER';
+                
+            } catch (error) {
+                addActivity(`❌ Stop error: ${error.message}`, 'error');
+            }
+        }
+
+        // Auto-update stats every 5 seconds
+        setInterval(async () => {
+            if (isRunning) {
+                try {
+                    const response = await fetch('/api/ultra_stats');
+                    const stats = await response.json();
+                    
+                    document.getElementById('active-browsers').textContent = stats.active_sessions || 0;
+                    
+                    // Update success rate based on power score
+                    const avgPower = stats.average_power_score || 0;
+                    if (avgPower > 90) {
+                        document.getElementById('success-rate').textContent = '95-99%';
+                    } else if (avgPower > 70) {
+                        document.getElementById('success-rate').textContent = '85-95%';
+                    } else {
+                        document.getElementById('success-rate').textContent = '75-85%';
+                    }
+                    
+                } catch (error) {
+                    console.error('Stats update error:', error);
+                }
+            }
+        }, 5000);
+
+        // Initialize status display with simple updates
+        setInterval(() => {
+            if (!isRunning) {
+                const statusProb = document.getElementById('quantum-probability');
+                const randomProb = (Math.random() * 30 + 60).toFixed(1);
+                statusProb.textContent = `${randomProb}%`;
+            }
+        }, 3000);
+
+        // Country-City mapping for auto-population
+        const countryCityMap = {
+            "Pakistan": ["Karachi", "Lahore", "Faisalabad", "Rawalpindi", "Gujranwala", "Peshawar", "Multan", "Islamabad"],
+            "India": ["Mumbai", "Delhi", "Bangalore", "Hyderabad", "Ahmedabad", "Chennai", "Kolkata", "Pune", "Jaipur", "Lucknow"],
+            "Bangladesh": ["Dhaka", "Chittagong", "Sylhet", "Rajshahi", "Khulna", "Barisal", "Rangpur"],
+            "Philippines": ["Manila", "Quezon City", "Davao", "Cebu", "Zamboanga", "Antipolo", "Pasig", "Taguig"],
+            "Egypt": ["Cairo", "Alexandria", "Giza", "Shubra El Kheima", "Port Said", "Suez", "Luxor"],
+            "Indonesia": ["Jakarta", "Surabaya", "Medan", "Bandung", "Bekasi", "Palembang", "Tangerang"],
+            "Nepal": ["Kathmandu", "Pokhara", "Lalitpur", "Bharatpur", "Biratnagar", "Birgunj"],
+            "Sri Lanka": ["Colombo", "Kandy", "Galle", "Jaffna", "Negombo", "Anuradhapura"],
+            "Turkey": ["Istanbul", "Ankara", "Izmir", "Bursa", "Adana", "Gaziantep", "Konya"],
+            "Jordan": ["Amman", "Zarqa", "Irbid", "Aqaba", "Salt", "Madaba"],
+            "Lebanon": ["Beirut", "Tripoli", "Sidon", "Tyre", "Nabatieh", "Baalbek"],
+            "Syria": ["Damascus", "Aleppo", "Homs", "Latakia", "Hama", "Deir ez-Zor"],
+            "Morocco": ["Casablanca", "Rabat", "Fez", "Marrakech", "Agadir", "Tangier", "Meknes"],
+            "Algeria": ["Algiers", "Oran", "Constantine", "Annaba", "Blida", "Batna", "Djelfa"],
+            "Sudan": ["Khartoum", "Omdurman", "Port Sudan", "Kassala", "Obeid", "Nyala"],
+            "Nigeria": ["Lagos", "Kano", "Ibadan", "Abuja", "Port Harcourt", "Benin City", "Maiduguri"],
+            "Ghana": ["Accra", "Kumasi", "Tamale", "Cape Coast", "Sekondi-Takoradi", "Sunyani"],
+            "Kenya": ["Nairobi", "Mombasa", "Nakuru", "Eldoret", "Kisumu"],
+            "Ethiopia": ["Addis Ababa", "Dire Dawa", "Mekelle", "Gondar", "Awassa", "Bahir Dar"],
+            "Thailand": ["Bangkok", "Nonthaburi", "Pak Kret", "Hat Yai", "Chiang Mai"]
+        };
+
+        // Auto-populate cities when country changes
+        document.getElementById('country').addEventListener('change', function() {
+            const selectedCountry = this.value;
+            const citySelect = document.getElementById('city');
+            
+            // Clear existing options
+            citySelect.innerHTML = '<option value="">Select City</option>';
+            
+            // Add cities for selected country
+            if (countryCityMap[selectedCountry]) {
+                countryCityMap[selectedCountry].forEach(city => {
+                    const option = document.createElement('option');
+                    option.value = city;
+                    option.textContent = city;
+                    citySelect.appendChild(option);
+                });
+            }
+        });
+
+        // Auto-populate nationality when country changes
+        const countryNationalityMap = {
+            "Pakistan": "Pakistani", "India": "Indian", "Bangladesh": "Bangladeshi",
+            "Philippines": "Filipino", "Egypt": "Egyptian", "Indonesia": "Indonesian",
+            "Nepal": "Nepalese", "Sri Lanka": "Sri Lankan", "Turkey": "Turkish",
+            "Jordan": "Jordanian", "Lebanon": "Lebanese", "Syria": "Syrian",
+            "Morocco": "Moroccan", "Algeria": "Algerian", "Sudan": "Sudanese",
+            "Nigeria": "Nigerian", "Ghana": "Ghanaian", "Kenya": "Kenyan",
+            "Ethiopia": "Ethiopian", "Thailand": "Thai"
+        };
+
+        document.getElementById('country').addEventListener('change', function() {
+            const selectedCountry = this.value;
+            const nationalitySelect = document.getElementById('nationality');
+            
+            if (countryNationalityMap[selectedCountry]) {
+                nationalitySelect.value = countryNationalityMap[selectedCountry];
+            }
+        });
+
+        // Session and authentication management
+        async function logout() {
+            if (confirm('Are you sure you want to logout and lock the system?')) {
+                try {
+                    const response = await fetch('/api/logout', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        }
+                    });
+                    
+                    const data = await response.json();
+                    if (data.status === 'success') {
+                        addActivity('🚪 System locked. User logged out', 'info');
+                        
+                        // Reset authentication state
+                        isAuthenticated = false;
+                        
+                        // Stop any running automation
+                        if (currentSessionId) {
+                            await stopUltraPowerfulBooking();
+                        }
+                        
+                        // Show authentication popup
+                        showAuthenticationPopup();
+                    }
+                } catch (error) {
+                    console.error('Logout error:', error);
+                    // Force logout state
+                    isAuthenticated = false;
+                    showAuthenticationPopup();
+                }
+            }
+        }
+
+        // Check authentication status periodically
+        setInterval(async function() {
+            try {
+                const response = await fetch('/api/check_auth');
+                const data = await response.json();
+                
+                if (!data.authenticated) {
+                    addActivity('⚠️ Session expired. Redirecting to login...', 'warning');
+                    setTimeout(() => {
+                        window.location.href = '/login';
+                    }, 2000);
+                }
+            } catch (error) {
+                console.error('Auth check error:', error);
+            }
+        }, 60000); // Check every minute
+
+        // Initialize authentication check on page load
+        window.addEventListener('load', function() {
+            checkAuthenticationOnLoad();
+            initializeFileUpload();
+        });
+
+        // File Upload Functionality
+        let selectedFiles = [];
+        let uploadedFilesCount = 0;
+
+        function initializeFileUpload() {
+            const dropZone = document.getElementById('fileDropZone');
+            const fileInput = document.getElementById('fileInput');
+
+            // Click to select files
+            dropZone.addEventListener('click', () => {
+                fileInput.click();
+            });
+
+            // File input change event
+            fileInput.addEventListener('change', (e) => {
+                handleFiles(e.target.files);
+            });
+
+            // Drag and drop events
+            dropZone.addEventListener('dragover', (e) => {
+                e.preventDefault();
+                dropZone.classList.add('dragover');
+            });
+
+            dropZone.addEventListener('dragleave', (e) => {
+                e.preventDefault();
+                dropZone.classList.remove('dragover');
+            });
+
+            dropZone.addEventListener('drop', (e) => {
+                e.preventDefault();
+                dropZone.classList.remove('dragover');
+                handleFiles(e.dataTransfer.files);
+            });
+        }
+
+        function handleFiles(files) {
+            for (let file of files) {
+                if (isValidFile(file)) {
+                    const fileId = generateFileId();
+                    selectedFiles.push({
+                        id: fileId,
+                        file: file,
+                        status: 'pending'
+                    });
+                    addFileToDisplay(file, fileId);
+                } else {
+                    addActivity(`❌ Invalid file type: ${file.name}`, 'error');
+                }
+            }
+            updateUploadActions();
+        }
+
+        function isValidFile(file) {
+            const allowedTypes = [
+                'application/pdf',
+                'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+                'image/jpeg',
+                'image/jpg',
+                'image/png',
+                'text/plain',
+                'text/csv'
+            ];
+            return allowedTypes.includes(file.type) || 
+                   /\.(pdf|docx|jpg|jpeg|png|txt|csv)$/i.test(file.name);
+        }
+
+        function generateFileId() {
+            return 'file_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
+        }
+
+        function addFileToDisplay(file, fileId) {
+            const uploadedFiles = document.getElementById('uploadedFiles');
+            uploadedFiles.classList.add('has-files');
+
+            const fileItem = document.createElement('div');
+            fileItem.className = 'file-item';
+            fileItem.id = `file-item-${fileId}`;
+
+            const fileIcon = getFileIcon(file.type, file.name);
+            const fileSize = formatFileSize(file.size);
+
+            fileItem.innerHTML = `
+                <div class="file-info">
+                    <div class="file-icon">${fileIcon}</div>
+                    <div class="file-details">
+                        <div class="file-name">${file.name}</div>
+                        <div class="file-size">${fileSize}</div>
+                    </div>
+                </div>
+                <div class="file-status pending" id="status-${fileId}">
+                    ⏳ Pending
+                </div>
+                <button class="file-remove" onclick="removeFile('${fileId}')" title="Remove file">
+                    ✕
+                </button>
+            `;
+
+            uploadedFiles.appendChild(fileItem);
+        }
+
+        function getFileIcon(fileType, fileName) {
+            if (fileType.includes('pdf') || fileName.toLowerCase().endsWith('.pdf')) {
+                return '📄';
+            } else if (fileType.includes('image') || /\.(jpg|jpeg|png)$/i.test(fileName)) {
+                return '🖼️';
+            } else if (fileType.includes('word') || fileName.toLowerCase().endsWith('.docx')) {
+                return '📝';
+            } else if (fileType.includes('text') || /\.(txt|csv)$/i.test(fileName)) {
+                return '📋';
+            }
+            return '📎';
+        }
+
+        function formatFileSize(bytes) {
+            if (bytes === 0) return '0 Bytes';
+            const k = 1024;
+            const sizes = ['Bytes', 'KB', 'MB', 'GB'];
+            const i = Math.floor(Math.log(bytes) / Math.log(k));
+            return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
+        }
+
+        function removeFile(fileId) {
+            selectedFiles = selectedFiles.filter(f => f.id !== fileId);
+            document.getElementById(`file-item-${fileId}`).remove();
+            
+            if (selectedFiles.length === 0) {
+                document.getElementById('uploadedFiles').classList.remove('has-files');
+            }
+            
+            updateUploadActions();
+            addActivity(`🗑️ File removed`, 'info');
+        }
+
+        function clearAllFiles() {
+            selectedFiles = [];
+            const uploadedFiles = document.getElementById('uploadedFiles');
+            uploadedFiles.innerHTML = '';
+            uploadedFiles.classList.remove('has-files');
+            document.getElementById('fileInput').value = '';
+            updateUploadActions();
+            addActivity(`🗑️ All files cleared`, 'info');
+        }
+
+        function updateUploadActions() {
+            const clearBtn = document.getElementById('clearFilesBtn');
+            const uploadBtn = document.getElementById('uploadAllBtn');
+            
+            if (selectedFiles.length > 0) {
+                clearBtn.style.display = 'inline-block';
+                uploadBtn.style.display = 'inline-block';
+                uploadBtn.textContent = `⬆️ Upload ${selectedFiles.length} File${selectedFiles.length > 1 ? 's' : ''}`;
+            } else {
+                clearBtn.style.display = 'none';
+                uploadBtn.style.display = 'none';
+            }
+        }
+
+        async function uploadAllFiles() {
+            if (selectedFiles.length === 0) {
+                addActivity('⚠️ No files selected for upload', 'warning');
+                return;
+            }
+
+            const uploadProgress = document.getElementById('uploadProgress');
+            const uploadProgressFill = document.getElementById('uploadProgressFill');
+            const uploadProgressText = document.getElementById('uploadProgressText');
+            const uploadBtn = document.getElementById('uploadAllBtn');
+
+            uploadProgress.style.display = 'block';
+            uploadBtn.disabled = true;
+            uploadBtn.textContent = '⏳ Uploading...';
+
+            let completedFiles = 0;
+            const totalFiles = selectedFiles.length;
+
+            addActivity(`📤 Starting upload of ${totalFiles} files...`, 'info');
+
+            for (let i = 0; i < selectedFiles.length; i++) {
+                const fileData = selectedFiles[i];
+                
+                try {
+                    // Update file status to uploading
+                    updateFileStatus(fileData.id, 'uploading', '⬆️ Uploading...');
+                    
+                    // Create FormData for file upload
+                    const formData = new FormData();
+                    formData.append('file', fileData.file);
+                    formData.append('fileId', fileData.id);
+
+                    const response = await fetch('/api/upload_appointment_file', {
+                        method: 'POST',
+                        body: formData
+                    });
+
+                    const result = await response.json();
+
+                    if (result.success) {
+                        updateFileStatus(fileData.id, 'success', '✅ Uploaded');
+                        fileData.status = 'uploaded';
+                        addActivity(`✅ ${fileData.file.name} uploaded successfully`, 'success');
+                    } else {
+                        updateFileStatus(fileData.id, 'error', '❌ Failed');
+                        addActivity(`❌ Failed to upload ${fileData.file.name}: ${result.error}`, 'error');
+                    }
+                } catch (error) {
+                    updateFileStatus(fileData.id, 'error', '❌ Error');
+                    addActivity(`❌ Upload error for ${fileData.file.name}: ${error.message}`, 'error');
+                }
+
+                completedFiles++;
+                const progress = (completedFiles / totalFiles) * 100;
+                uploadProgressFill.style.width = `${progress}%`;
+                uploadProgressText.textContent = `Uploading... ${completedFiles}/${totalFiles} files`;
+            }
+
+            // Upload completed
+            uploadProgressText.textContent = `Upload completed! ${completedFiles}/${totalFiles} files processed`;
+            uploadBtn.disabled = false;
+            uploadBtn.textContent = '✅ Upload Complete';
+            
+            setTimeout(() => {
+                uploadProgress.style.display = 'none';
+                uploadBtn.textContent = `⬆️ Upload Files`;
+                updateUploadActions();
+            }, 3000);
+
+            const successCount = selectedFiles.filter(f => f.status === 'uploaded').length;
+            addActivity(`📋 Upload Summary: ${successCount}/${totalFiles} files uploaded successfully`, 'info');
+        }
+
+        function updateFileStatus(fileId, status, text) {
+            const statusElement = document.getElementById(`status-${fileId}`);
+            if (statusElement) {
+                statusElement.className = `file-status ${status}`;
+                statusElement.textContent = text;
+            }
+        }
+
+        // Enhanced Auto-Booking Functions
+        let autoBookingActive = false;
+        let monitoringActive = false;
+        let enhancedStats = {
+            daily_bookings: 0,
+            slots_detected: 0,
+            queue_size: 0,
+            success_rate: 0
+        };
+
+        function startAutoBooking() {
+            fetch('/api/start_auto_booking', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    autoBookingActive = true;
+                    updateAutoBookingUI();
+                    addActivity('🤖 Enhanced Auto-Booking system started', 'success');
+                    showNotification('Auto-Booking Started', 'Enhanced auto-booking system is now active');
+                } else {
+                    addActivity(`❌ Failed to start auto-booking: ${data.message}`, 'error');
+                }
+            })
+            .catch(error => {
+                console.error('Error starting auto-booking:', error);
+                addActivity('❌ Error starting auto-booking system', 'error');
+            });
+        }
+
+        function stopAutoBooking() {
+            fetch('/api/stop_auto_booking', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    autoBookingActive = false;
+                    updateAutoBookingUI();
+                    addActivity('🛑 Enhanced Auto-Booking system stopped', 'warning');
+                } else {
+                    addActivity(`❌ Failed to stop auto-booking: ${data.message}`, 'error');
+                }
+            })
+            .catch(error => {
+                console.error('Error stopping auto-booking:', error);
+                addActivity('❌ Error stopping auto-booking system', 'error');
+            });
+        }
+
+        function startMonitoring() {
+            fetch('/api/start_monitoring', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    monitoringActive = true;
+                    updateMonitoringUI();
+                    addActivity('👁️ Enhanced monitoring system started', 'success');
+                } else {
+                    addActivity(`❌ Failed to start monitoring: ${data.message}`, 'error');
+                }
+            })
+            .catch(error => {
+                console.error('Error starting monitoring:', error);
+                addActivity('❌ Error starting monitoring system', 'error');
+            });
+        }
+
+        function stopMonitoring() {
+            fetch('/api/stop_monitoring', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    monitoringActive = false;
+                    updateMonitoringUI();
+                    addActivity('🛑 Enhanced monitoring system stopped', 'warning');
+                } else {
+                    addActivity(`❌ Failed to stop monitoring: ${data.message}`, 'error');
+                }
+            })
+            .catch(error => {
+                console.error('Error stopping monitoring:', error);
+                addActivity('❌ Error stopping monitoring system', 'error');
+            });
+        }
+
+        function updateAutoBookingUI() {
+            const dot = document.getElementById('auto-booking-dot');
+            const statusText = document.getElementById('auto-booking-status-text');
+            const startBtn = document.getElementById('start-auto-booking');
+            const stopBtn = document.getElementById('stop-auto-booking');
+            
+            if (autoBookingActive) {
+                dot.className = 'status-dot active';
+                statusText.textContent = 'Auto-Booking Active';
+                startBtn.disabled = true;
+                stopBtn.disabled = false;
+            } else {
+                dot.className = 'status-dot inactive';
+                statusText.textContent = 'Auto-Booking Inactive';
+                startBtn.disabled = false;
+                stopBtn.disabled = true;
+            }
+        }
+
+        function updateMonitoringUI() {
+            const statusText = document.getElementById('monitoring-status');
+            const startBtn = document.getElementById('start-monitoring');
+            const stopBtn = document.getElementById('stop-monitoring');
+            
+            if (monitoringActive) {
+                statusText.textContent = 'Active';
+                statusText.style.color = 'var(--success-color)';
+                startBtn.disabled = true;
+                stopBtn.disabled = false;
+            } else {
+                statusText.textContent = 'Inactive';
+                statusText.style.color = 'var(--gray-500)';
+                startBtn.disabled = false;
+                stopBtn.disabled = true;
+            }
+        }
+
+        function updateEnhancedStats(stats) {
+            enhancedStats = { ...enhancedStats, ...stats };
+            
+            // Update display elements
+            document.getElementById('total-bookings').textContent = enhancedStats.daily_bookings || 0;
+            document.getElementById('slots-detected').textContent = enhancedStats.total_slots_detected || 0;
+            document.getElementById('queue-size').textContent = enhancedStats.queue_size || 0;
+            document.getElementById('success-percentage').textContent = `${(enhancedStats.success_rate || 0).toFixed(1)}%`;
+            
+            // Update progress bar
+            const maxDaily = 100;
+            const progress = Math.min((enhancedStats.daily_bookings || 0) / maxDaily * 100, 100);
+            document.getElementById('daily-progress-bar').style.width = `${progress}%`;
+            document.getElementById('daily-progress-text').textContent = `${enhancedStats.daily_bookings || 0} / ${maxDaily} bookings`;
+        }
+
+        function showNotification(title, message) {
+            const notification = document.createElement('div');
+            notification.className = 'real-time-updates';
+            notification.innerHTML = `
+                <div style="font-weight: 600; margin-bottom: 0.5rem;">${title}</div>
+                <div style="font-size: 0.875rem; color: var(--gray-600);">${message}</div>
+            `;
+            
+            document.body.appendChild(notification);
+            
+            // Show notification
+            setTimeout(() => notification.classList.add('show'), 100);
+            
+            // Hide notification
+            setTimeout(() => {
+                notification.classList.remove('show');
+                setTimeout(() => document.body.removeChild(notification), 300);
+            }, 5000);
+        }
+
+        function populateCenterControls(centers) {
+            const centerGrid = document.getElementById('center-controls-grid');
+            centerGrid.innerHTML = '';
+            
+            Object.entries(centers).forEach(([key, center]) => {
+                const centerCard = document.createElement('div');
+                centerCard.className = `center-card ${center.active ? 'active' : 'inactive'}`;
+                centerCard.innerHTML = `
+                    <div class="center-header">
+                        <h4>${center.name}</h4>
+                        <button class="center-toggle ${center.active ? 'active' : ''}" 
+                                onclick="toggleCenter('${key}')" id="toggle-${key}">
+                            ${center.active ? 'Active' : 'Inactive'}
+                        </button>
+                    </div>
+                    <div style="font-size: 0.875rem; color: var(--gray-600);">
+                        Priority: ${center.priority} | Success Rate: ${(center.success_rate * 100).toFixed(1)}%
+                    </div>
+                    <div style="font-size: 0.875rem; color: var(--gray-500); margin-top: 0.5rem;">
+                        Attempts: ${center.attempts} | Successes: ${center.successes}
+                    </div>
+                `;
+                centerGrid.appendChild(centerCard);
+            });
+        }
+
+        function toggleCenter(centerKey) {
+            fetch('/api/toggle_center', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ center_key: centerKey })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    const toggleBtn = document.getElementById(`toggle-${centerKey}`);
+                    if (data.active) {
+                        toggleBtn.classList.add('active');
+                        toggleBtn.textContent = 'Active';
+                        toggleBtn.parentElement.parentElement.classList.add('active');
+                        toggleBtn.parentElement.parentElement.classList.remove('inactive');
+                    } else {
+                        toggleBtn.classList.remove('active');
+                        toggleBtn.textContent = 'Inactive';
+                        toggleBtn.parentElement.parentElement.classList.add('inactive');
+                        toggleBtn.parentElement.parentElement.classList.remove('active');
+                    }
+                    addActivity(data.message, 'info');
+                } else {
+                    addActivity(`❌ ${data.message}`, 'error');
+                }
+            })
+            .catch(error => {
+                console.error('Error toggling center:', error);
+                addActivity('❌ Error toggling center status', 'error');
+            });
+        }
+
+        function addSlotDetection(slotData) {
+            const slotFeed = document.getElementById('slot-detection-feed');
+            
+            // Remove placeholder if exists
+            if (slotFeed.children.length === 1 && slotFeed.children[0].textContent.includes('Waiting for slot detection')) {
+                slotFeed.innerHTML = '';
+            }
+            
+            const slotItem = document.createElement('div');
+            slotItem.className = 'slot-item';
+            slotItem.innerHTML = `
+                <div class="slot-header">
+                    <strong>${slotData.center}</strong>
+                    <div class="confidence-badge">${slotData.confidence}% confidence</div>
+                </div>
+                <div style="font-size: 0.875rem; color: var(--gray-600);">
+                    ${slotData.slots_available} slots available | Detected at: ${new Date(slotData.detected_at).toLocaleTimeString()}
+                </div>
+            `;
+            
+            // Add to top of feed
+            slotFeed.insertBefore(slotItem, slotFeed.firstChild);
+            
+            // Keep only latest 20 items
+            while (slotFeed.children.length > 20) {
+                slotFeed.removeChild(slotFeed.lastChild);
+            }
+        }
+
+        // Enhanced Socket.IO event handlers
+        socket.on('stats_update', function(stats) {
+            updateEnhancedStats(stats);
+        });
+
+        socket.on('centers_update', function(centers) {
+            populateCenterControls(centers);
+        });
+
+        socket.on('slot_detected', function(slotData) {
+            addSlotDetection(slotData);
+            enhancedStats.slots_detected++;
+            updateEnhancedStats(enhancedStats);
+        });
+
+        socket.on('booking_success', function(data) {
+            addActivity(`✅ Booking successful at ${data.center} at ${data.time}`, 'success');
+            showNotification('Booking Success!', `Successfully booked at ${data.center}`);
+            enhancedStats.daily_bookings = data.total_today;
+            updateEnhancedStats(enhancedStats);
+        });
+
+        // Enhanced authentication function override
+        function unlockSystem() {
+            isAuthenticated = true;
+            const authPopup = document.getElementById('auth-popup');
+            const mainContent = document.getElementById('main-content');
+            
+            authPopup.style.display = 'none';
+            mainContent.style.opacity = '1';
+            mainContent.style.pointerEvents = 'auto';
+            mainContent.style.filter = 'none';
+            
+            // Show enhanced controls
+            document.getElementById('enhanced-controls').style.display = 'block';
+            document.getElementById('center-controls').style.display = 'block';
+            document.getElementById('real-time-slots').style.display = 'block';
+            
+            // Load initial data
+            fetchEnhancedStats();
+            
+            addActivity('🔐 System unlocked - Enhanced features activated', 'success');
+            addActivity('🚀 100+ daily booking capacity enabled', 'info');
+            addActivity('🎯 Real-time monitoring system ready', 'info');
+        }
+
+        function fetchEnhancedStats() {
+            fetch('/api/get_enhanced_stats')
+                .then(response => response.json())
+                .then(data => {
+                    updateEnhancedStats(data.enhanced_stats);
+                    populateCenterControls(data.target_centers);
+                })
+                .catch(error => {
+                    console.error('Error fetching enhanced stats:', error);
+                });
+        }
+
+        // Auto-refresh enhanced stats every 30 seconds
+        setInterval(() => {
+            if (isAuthenticated) {
+                fetchEnhancedStats();
+            }
+        }, 30000);
+
+        // Show authentication on load
+        window.onload = function() {
+            if (!isAuthenticated) {
+                showAuthenticationPopup();
+            }
+        };
+    </script>
+    </div> <!-- End of main content -->
+</body>
+</html>

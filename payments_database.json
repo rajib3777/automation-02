@@ -1,0 +1,16 @@
+{
+  "payments": [
+    {
+      "payment_id": "PAY_20250921_3BECA6BF",
+      "appointment_id": 1,
+      "name": "Farid Hossain",
+      "email": "mominit8@gmail.com",
+      "passport_no": "AE5241562",
+      "amount": 10.0,
+      "payment_method": "Credit Card",
+      "status": "Completed",
+      "processed_at": "2025-09-21T16:05:27.148593",
+      "confirmation_code": "204FDA6B"
+    }
+  ]
+}

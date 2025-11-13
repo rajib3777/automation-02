@@ -1,0 +1,1 @@
+web: gunicorn ultra_powerful_app_enhanced:app --bind 0.0.0.0:$PORT

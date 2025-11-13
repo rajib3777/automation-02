@@ -1,0 +1,546 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ultra-Powerful Wafid Booking System - Dashboard</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #2563eb;
+            --primary-hover: #1d4ed8;
+            --success-color: #059669;
+            --danger-color: #dc2626;
+            --warning-color: #d97706;
+            --gray-50: #f9fafb;
+            --gray-100: #f3f4f6;
+            --gray-200: #e5e7eb;
+            --gray-300: #d1d5db;
+            --gray-400: #9ca3af;
+            --gray-500: #6b7280;
+            --gray-600: #4b5563;
+            --gray-700: #374151;
+            --gray-800: #1f2937;
+            --gray-900: #111827;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            color: var(--gray-800);
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .header h1 {
+            color: white;
+            font-size: 3rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        .header .subtitle {
+            color: rgba(255, 255, 255, 0.9);
+            font-size: 1.2rem;
+            font-weight: 400;
+        }
+
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+
+        .card {
+            background: white;
+            border-radius: 16px;
+            padding: 2rem;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+        }
+
+        .card-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .card-icon {
+            font-size: 2rem;
+            margin-right: 1rem;
+        }
+
+        .card-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: var(--gray-800);
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1rem;
+        }
+
+        .stat-item {
+            text-align: center;
+            padding: 1rem;
+            background: var(--gray-50);
+            border-radius: 8px;
+        }
+
+        .stat-number {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--primary-color);
+            margin-bottom: 0.25rem;
+        }
+
+        .stat-label {
+            font-size: 0.875rem;
+            color: var(--gray-600);
+            font-weight: 500;
+        }
+
+        .control-buttons {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+
+        .btn {
+            padding: 0.875rem 1.5rem;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 0.95rem;
+            text-align: center;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .btn-primary {
+            background: var(--primary-color);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: var(--primary-hover);
+            transform: translateY(-2px);
+        }
+
+        .btn-success {
+            background: var(--success-color);
+            color: white;
+        }
+
+        .btn-danger {
+            background: var(--danger-color);
+            color: white;
+        }
+
+        .btn-warning {
+            background: var(--warning-color);
+            color: white;
+        }
+
+        .btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none !important;
+        }
+
+        .centers-list {
+            list-style: none;
+        }
+
+        .center-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem;
+            margin-bottom: 0.5rem;
+            background: var(--gray-50);
+            border-radius: 8px;
+            border-left: 4px solid var(--success-color);
+        }
+
+        .center-info h4 {
+            font-weight: 600;
+            margin-bottom: 0.25rem;
+            color: var(--gray-800);
+        }
+
+        .center-info p {
+            font-size: 0.875rem;
+            color: var(--gray-600);
+        }
+
+        .center-status {
+            display: flex;
+            align-items: center;
+            font-size: 0.875rem;
+            font-weight: 500;
+        }
+
+        .status-active {
+            color: var(--success-color);
+        }
+
+        .status-inactive {
+            color: var(--danger-color);
+        }
+
+        .appointments-list {
+            max-height: 300px;
+            overflow-y: auto;
+        }
+
+        .appointment-item {
+            padding: 1rem;
+            margin-bottom: 0.75rem;
+            background: var(--gray-50);
+            border-radius: 8px;
+            border-left: 4px solid var(--primary-color);
+        }
+
+        .appointment-item h4 {
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: var(--gray-800);
+        }
+
+        .appointment-item p {
+            font-size: 0.875rem;
+            color: var(--gray-600);
+            margin-bottom: 0.25rem;
+        }
+
+        .user-info {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+        }
+
+        .info-item {
+            padding: 0.75rem;
+            background: var(--gray-50);
+            border-radius: 6px;
+        }
+
+        .info-label {
+            font-size: 0.75rem;
+            color: var(--gray-600);
+            font-weight: 500;
+            margin-bottom: 0.25rem;
+        }
+
+        .info-value {
+            font-weight: 600;
+            color: var(--gray-800);
+        }
+
+        .alert {
+            padding: 1rem;
+            border-radius: 8px;
+            margin-bottom: 1rem;
+            display: none;
+        }
+
+        .alert-success {
+            background: rgba(5, 150, 105, 0.1);
+            border: 1px solid rgba(5, 150, 105, 0.3);
+            color: var(--success-color);
+        }
+
+        .alert-danger {
+            background: rgba(220, 38, 38, 0.1);
+            border: 1px solid rgba(220, 38, 38, 0.3);
+            color: var(--danger-color);
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 1rem;
+            }
+
+            .header h1 {
+                font-size: 2rem;
+            }
+
+            .dashboard-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .control-buttons {
+                grid-template-columns: 1fr;
+            }
+
+            .user-info {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🚀 Ultra-Powerful Wafid System</h1>
+            <p class="subtitle">Advanced Booking Automation Dashboard - No Authentication Required</p>
+        </div>
+
+        <div id="alerts"></div>
+
+        <div class="dashboard-grid">
+            <!-- Statistics Card -->
+            <div class="card">
+                <div class="card-header">
+                    <span class="card-icon">📊</span>
+                    <h2 class="card-title">Live Statistics</h2>
+                </div>
+                <div class="stats-grid">
+                    <div class="stat-item">
+                        <div class="stat-number" id="total-bookings">{{ enhanced_stats.total_bookings_successful }}</div>
+                        <div class="stat-label">Total Bookings</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number" id="daily-bookings">{{ enhanced_stats.daily_bookings }}</div>
+                        <div class="stat-label">Today</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number" id="success-rate">{{ "%.1f"|format(enhanced_stats.success_rate) }}%</div>
+                        <div class="stat-label">Success Rate</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number" id="active-centers">{{ enhanced_stats.centers_active }}</div>
+                        <div class="stat-label">Active Centers</div>
+                    </div>
+                </div>
+                <div class="control-buttons">
+                    <button class="btn btn-primary" onclick="startMonitoring()" id="monitoring-btn">
+                        {% if monitoring_active %}🔴 Stop Monitoring{% else %}▶️ Start Monitoring{% endif %}
+                    </button>
+                    <button class="btn btn-success" onclick="startAutoBooking()" id="booking-btn">
+                        {% if auto_booking_active %}⏹️ Stop Auto-Booking{% else %}🤖 Start Auto-Booking{% endif %}
+                    </button>
+                </div>
+            </div>
+
+            <!-- Target Centers Card -->
+            <div class="card">
+                <div class="card-header">
+                    <span class="card-icon">🏥</span>
+                    <h2 class="card-title">Target Centers</h2>
+                </div>
+                <ul class="centers-list">
+                    {% for key, center in target_centers.items() %}
+                    <li class="center-item">
+                        <div class="center-info">
+                            <h4>{{ center.name }}</h4>
+                            <p>Success Rate: {{ center.success_rate }}% | Attempts: {{ center.attempts }}</p>
+                        </div>
+                        <div class="center-status {{ 'status-active' if center.active else 'status-inactive' }}">
+                            {{ '✅ Active' if center.active else '❌ Inactive' }}
+                        </div>
+                    </li>
+                    {% endfor %}
+                </ul>
+            </div>
+
+            <!-- Recent Appointments Card -->
+            <div class="card">
+                <div class="card-header">
+                    <span class="card-icon">📅</span>
+                    <h2 class="card-title">Recent Appointments</h2>
+                </div>
+                <div class="appointments-list">
+                    {% for appointment in appointments %}
+                    <div class="appointment-item">
+                        <h4>{{ appointment.center }}</h4>
+                        <p><strong>Patient:</strong> {{ appointment.user_name }}</p>
+                        <p><strong>Date:</strong> {{ appointment.booking_date }}</p>
+                        <p><strong>Status:</strong> <span style="color: var(--success-color); font-weight: 600;">{{ appointment.status.title() }}</span></p>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+
+            <!-- User Configuration Card -->
+            <div class="card">
+                <div class="card-header">
+                    <span class="card-icon">👤</span>
+                    <h2 class="card-title">User Information</h2>
+                </div>
+                <div class="user-info">
+                    <div class="info-item">
+                        <div class="info-label">Full Name</div>
+                        <div class="info-value">{{ config.user_details.full_name }}</div>
+                    </div>
+                    <div class="info-item">
+                        <div class="info-label">Passport Number</div>
+                        <div class="info-value">{{ config.user_details.passport_number }}</div>
+                    </div>
+                    <div class="info-item">
+                        <div class="info-label">Nationality</div>
+                        <div class="info-value">{{ config.user_details.nationality }}</div>
+                    </div>
+                    <div class="info-item">
+                        <div class="info-label">Phone</div>
+                        <div class="info-value">{{ config.user_details.phone }}</div>
+                    </div>
+                    <div class="info-item">
+                        <div class="info-label">Email</div>
+                        <div class="info-value">{{ config.user_details.email }}</div>
+                    </div>
+                    <div class="info-item">
+                        <div class="info-label">Target Country</div>
+                        <div class="info-value">{{ config.booking_preferences.country }}</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let monitoringActive = {{ monitoring_active|tojson }};
+        let autoBookingActive = {{ auto_booking_active|tojson }};
+
+        function showAlert(message, type = 'success') {
+            const alertsContainer = document.getElementById('alerts');
+            const alert = document.createElement('div');
+            alert.className = `alert alert-${type}`;
+            alert.textContent = message;
+            alert.style.display = 'block';
+            
+            alertsContainer.appendChild(alert);
+            
+            setTimeout(() => {
+                alert.remove();
+            }, 5000);
+        }
+
+        async function startMonitoring() {
+            const btn = document.getElementById('monitoring-btn');
+            const originalText = btn.textContent;
+            
+            try {
+                btn.disabled = true;
+                btn.textContent = '⏳ Processing...';
+                
+                const endpoint = monitoringActive ? '/api/stop_monitoring' : '/api/start_monitoring';
+                const response = await fetch(endpoint, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                });
+                
+                const data = await response.json();
+                
+                if (data.success) {
+                    monitoringActive = !monitoringActive;
+                    btn.textContent = monitoringActive ? '🔴 Stop Monitoring' : '▶️ Start Monitoring';
+                    btn.className = monitoringActive ? 'btn btn-danger' : 'btn btn-primary';
+                    showAlert(data.message, 'success');
+                } else {
+                    throw new Error(data.message);
+                }
+            } catch (error) {
+                btn.textContent = originalText;
+                showAlert('Error: ' + error.message, 'danger');
+            } finally {
+                btn.disabled = false;
+            }
+        }
+
+        async function startAutoBooking() {
+            const btn = document.getElementById('booking-btn');
+            const originalText = btn.textContent;
+            
+            try {
+                btn.disabled = true;
+                btn.textContent = '⏳ Processing...';
+                
+                const endpoint = autoBookingActive ? '/api/stop_auto_booking' : '/api/start_auto_booking';
+                const response = await fetch(endpoint, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                });
+                
+                const data = await response.json();
+                
+                if (data.success) {
+                    autoBookingActive = !autoBookingActive;
+                    btn.textContent = autoBookingActive ? '⏹️ Stop Auto-Booking' : '🤖 Start Auto-Booking';
+                    btn.className = autoBookingActive ? 'btn btn-warning' : 'btn btn-success';
+                    showAlert(data.message, 'success');
+                } else {
+                    throw new Error(data.message);
+                }
+            } catch (error) {
+                btn.textContent = originalText;
+                showAlert('Error: ' + error.message, 'danger');
+            } finally {
+                btn.disabled = false;
+            }
+        }
+
+        // Auto-refresh stats every 30 seconds
+        setInterval(async function() {
+            try {
+                const response = await fetch('/api/get_enhanced_stats');
+                const data = await response.json();
+                
+                if (data.enhanced_stats) {
+                    document.getElementById('total-bookings').textContent = data.enhanced_stats.total_bookings_successful;
+                    document.getElementById('daily-bookings').textContent = data.enhanced_stats.daily_bookings;
+                    document.getElementById('success-rate').textContent = data.enhanced_stats.success_rate.toFixed(1) + '%';
+                    document.getElementById('active-centers').textContent = data.enhanced_stats.centers_active;
+                }
+            } catch (error) {
+                console.log('Stats update error:', error);
+            }
+        }, 30000);
+
+        // Show welcome message
+        window.addEventListener('load', function() {
+            showAlert('🚀 Ultra-Powerful Wafid System Ready! No authentication required.', 'success');
+        });
+    </script>
+</body>
+</html>

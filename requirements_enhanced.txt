@@ -1,0 +1,31 @@
+# Enhanced Wafid Multi-Center Automation System Requirements
+
+# Core Web Framework
+Flask==3.0.0
+Flask-SocketIO==5.3.6
+Werkzeug==3.0.1
+
+# Web Automation & Scraping  
+selenium==4.15.2
+undetected-chromedriver==3.5.4
+
+# HTTP Requests
+requests==2.31.0
+
+# Data Processing
+numpy==1.24.3
+
+# Production Server
+gunicorn==21.2.0
+
+# Environment Management
+python-dotenv==1.0.0
+
+# Date/Time Utilities
+python-dateutil==2.8.2
+
+# SQLite (built-in, included for clarity)
+# sqlite3 (built-in with Python)
+
+# Note: Chart.js and other frontend dependencies are loaded via CDN
+# No need to install JavaScript packages

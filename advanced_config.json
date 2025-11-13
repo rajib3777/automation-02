@@ -1,0 +1,45 @@
+{
+  "user_details": {
+    "full_name": "Your Full Name Here",
+    "passport_number": "AB1234567",
+    "nationality": "Pakistani",
+    "phone": "+92-300-1234567",
+    "email": "your.email@example.com"
+  },
+  "booking_preferences": {
+    "country": "Pakistan",
+    "city": "Lahore",
+    "traveling_country": "Saudi Arabia",
+    "preferred_centers": [
+      "Check Up Diagnostic Centre",
+      "Al-Shifa Medical Center"
+    ],
+    "center_codes": {
+      "Check Up Diagnostic Centre": "346",
+      "Al-Shifa Medical Center": ""
+    }
+  },
+  "advanced_settings": {
+    "max_concurrent_sessions": 3,
+    "retry_delay_seconds": 5,
+    "max_attempts_per_session": 100,
+    "success_target": 2,
+    "enable_ai_optimization": true,
+    "run_schedule": "continuous",
+    "stealth_mode": true,
+    "random_delays": true,
+    "user_agent_rotation": true
+  },
+  "notification_settings": {
+    "enable_notifications": true,
+    "email_alerts": false,
+    "sound_alerts": true,
+    "desktop_notifications": true
+  },
+  "logging_settings": {
+    "enable_logging": true,
+    "log_level": "INFO",
+    "log_file": "wafid_booking.log",
+    "max_log_size": "10MB"
+  }
+}

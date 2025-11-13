@@ -1,0 +1,17 @@
+# Railway Deployment Configuration
+name = "enhanced-wafid-bot"
+source = "."
+
+[build]
+builder = "dockerfile"
+dockerfilePath = "Dockerfile_enhanced"
+
+[deploy]
+restartPolicyType = "always"
+healthcheckPath = "/"
+healthcheckTimeout = 300
+
+[env]
+PORT = "5000"
+ENHANCED_MONITORING = "true"
+MAX_RETRIES = "5"

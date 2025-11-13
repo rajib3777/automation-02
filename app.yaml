@@ -1,0 +1,29 @@
+name: enhanced-wafid-bot
+region: nyc
+
+services:
+- name: wafid-bot
+  source_dir: /
+  github:
+    repo: your-username/enhanced-wafid-bot
+    branch: main
+  dockerfile_path: Dockerfile_enhanced
+  
+  instance_count: 1
+  instance_size_slug: basic-xxs
+  
+  envs:
+  - key: PORT
+    value: "5000"
+  - key: ENHANCED_MONITORING
+    value: "true"
+  - key: MAX_RETRIES
+    value: "5"
+    
+  http_port: 5000
+  
+  health_check:
+    http_path: /
+    
+  routes:
+  - path: /

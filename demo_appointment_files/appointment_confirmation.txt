@@ -1,0 +1,12 @@
+APPOINTMENT CONFIRMATION
+======================
+
+Appointment Details:
+- Date: 2024-12-15
+- Time: 10:30 AM
+- Center: Precision Diagnostics Ltd
+- Applicant: John Doe
+- Passport: AB1234567
+- Status: Confirmed
+
+Please bring all required documents.
